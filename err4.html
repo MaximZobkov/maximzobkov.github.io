@@ -7,20 +7,43 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        .navbar {
-            width: 100%;
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            color: #343a40;
+        }
+
+        .navbar-brand {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
         }
 
         .container {
-            text-align: center;
             margin-top: 50px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: #ffffff;
         }
 
         .btn-custom {
             margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
+            padding: 15px 20px;
+            font-size: 18px;
+            border-radius: 10px;
+            background-color: #343a40;
+            color: #ffffff;
+            border: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .btn-custom:hover {
+            background-color: #212529;
+            transform: translateY(-5px);
         }
 
         .message {
@@ -32,8 +55,9 @@
         }
 
         .advice-image {
-            max-width: 250px;
+            max-width: 100%;
             height: auto;
+            max-height: 250px;
             border-radius: 10px;
             margin-top: 20px;
         }
@@ -42,26 +66,25 @@
 <body>
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.html" style="font-size: 32px;">ИЭТР для онлайн школы программирования</a>
+        <a class="navbar-brand" href="index.html">Интерактивное электронное техническое руководство для онлайн школы программирования</a>
     </div>
 </nav>
-<div class="container">
-    <h1 class="mb-4">Ошибка: Преподаватель не выполняет свои обязанности</h1>
-    <div id="advice-container">
-        <p class="lead">1 совет: Напишите преподавателю.</p>
-        <p>Попробуйте связаться с преподавателем через электронную почту или мессенджер. Возможно, преподаватель не
-            получил уведомление о своих обязанностях или столкнулся с техническими трудностями. Напишите ему, чтобы
-            уточнить, в чем именно заключается проблема. Это поможет вам лучше понять ситуацию и предложить решение.</p>
-        <img id="advice-image" class="advice-image"
-             src="https://avatars.mds.yandex.net/i?id=f7f06d1839b36d09dffa2232b8447905_l-9711399-images-thumbs&n=13"
-             alt="Advice Image">
-        <p class="mt-3">Помогло?</p>
-        <div class="button-container">
-            <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
-            <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+<div class="container text-center">
+    <div class="card">
+        <h1 class="mb-4">Ошибка: Преподаватель не выполняет свои обязанности</h1>
+        <div id="advice-container">
+            <p class="lead">1 совет: Напишите преподавателю.</p>
+            <p>Попробуйте связаться с преподавателем через электронную почту или мессенджер. Возможно, преподаватель не получил уведомление о своих обязанностях или столкнулся с техническими трудностями. Напишите ему, чтобы уточнить, в чем именно заключается проблема. Это поможет вам лучше понять ситуацию и предложить решение.</p>
+            <img id="advice-image" class="advice-image" src="https://avatars.mds.yandex.net/i?id=f7f06d1839b36d09dffa2232b8447905_l-9711399-images-thumbs&n=13" alt="Advice Image">
+            <p class="mt-3">Помогло?</p>
+            <div class="button-container">
+                <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
+                <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+            </div>
         </div>
+        <div style="display: none" id="message" class="message"></div>
     </div>
-    <div style="display: none" id="message" class="message"></div>
+    <a class="btn btn-dark btn-custom mt-3" href="index.html">На главную</a>
 </div>
 
 <script>
@@ -101,14 +124,10 @@
             }
         }
     }
-
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-<div class="container">
-    <a class="btn" href="index.html">На главную</a>
-</div>
 </body>
 </html>
