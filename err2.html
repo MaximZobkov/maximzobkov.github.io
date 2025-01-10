@@ -53,14 +53,6 @@
             background-color: #f9f9f9;
             border-radius: 10px;
         }
-
-        .advice-image {
-            max-width: 100%;
-            height: auto;
-            max-height: 250px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -75,7 +67,6 @@
         <div id="advice-container">
             <p class="lead">1 совет: Напишите клиенту.</p>
             <p>Попробуйте связаться с клиентом через электронную почту или мессенджер. Возможно, клиент не получил уведомление о начале курса или столкнулся с техническими трудностями. Напишите ему, чтобы уточнить, в чем именно заключается проблема. Это поможет вам лучше понять ситуацию и предложить решение.</p>
-            <img id="advice-image" class="advice-image" src="https://avatars.mds.yandex.net/i?id=87a895169e585b450c3a9c69966b43f7d67ba8b5-9068854-images-thumbs&n=13" alt="Advice Image">
             <p class="mt-3">Помогло?</p>
             <div class="button-container">
                 <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
@@ -84,7 +75,6 @@
         </div>
         <div style="display: none" id="message" class="message"></div>
     </div>
-    <a class="btn btn-dark btn-custom mt-3" href="index.html">На главную</a>
 </div>
 
 <script>
@@ -97,7 +87,11 @@
 
         if (helped) {
             messageElement.style.display = 'block';
-            messageElement.textContent = 'Проблема решена.';
+            messageElement.innerHTML = `
+                <p>Проблема решена.</p>
+                <p>Причина неисправности: Клиент не получил уведомление о начале курса или столкнулся с техническими трудностями.</p>
+                <p>Рекомендации: Убедитесь, что клиенты получают все необходимые уведомления и имеют доступ к технической поддержке.</p>
+            `;
             adviceContainer.style.display = 'none';
         } else {
             if (currentStep === 1) {
@@ -109,7 +103,6 @@
                         <li>Позвоните клиенту и объясните ситуацию. Уточните, в чем именно заключается проблема.</li>
                         <li>Предложите решение или дополнительную помощь, если это необходимо.</li>
                     </ol>
-                    <img id="advice-image" class="advice-image" src="https://i1.wp.com/rusadmin.biz/files/2020/08/ozhidanie_na_smartphone.jpg" alt="Advice Image">
                     <p class="mt-3">Помогло?</p>
                     <div class="button-container">
                         <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
@@ -117,9 +110,29 @@
                     </div>
                 `;
                 currentStep = 2;
+            } else if (currentStep === 2) {
+                adviceContainer.innerHTML = `
+                    <p class="lead">3 совет: Проверьте технические настройки.</p>
+                    <p>Если клиент не может зайти на курсы, возможно, проблема связана с техническими настройками. Проверьте следующие параметры:</p>
+                    <ol>
+                        <li>Убедитесь, что клиент использует совместимый браузер и обновил его до последней версии.</li>
+                        <li>Проверьте, включены ли куки и JavaScript в настройках браузера клиента.</li>
+                        <li>Убедитесь, что клиент имеет стабильное интернет-соединение.</li>
+                    </ol>
+                    <p class="mt-3">Помогло?</p>
+                    <div class="button-container">
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
+                        <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+                    </div>
+                `;
+                currentStep = 3;
             } else {
                 messageElement.style.display = 'block';
-                messageElement.textContent = 'Приостанавливаем доступ к сайту. Если ни один из предыдущих советов не помог, возможно, стоит приостановить доступ клиента к сайту до тех пор, пока проблема не будет решена. Это поможет избежать дальнейших неудобств и позволит вам сосредоточиться на решении проблемы.';
+                messageElement.innerHTML = `
+                    <p>Приостанавливаем доступ к сайту.</p>
+                    <p><strong>Причина неисправности:</strong> Неизвестная техническая проблема.</p>
+                    <p><strong>Рекомендации:</strong> Если ни один из предыдущих советов не помог, возможно, стоит приостановить доступ клиента к сайту до тех пор, пока проблема не будет решена. Это поможет избежать дальнейших неудобств и позволит вам сосредоточиться на решении проблемы.</p>
+                `;
                 adviceContainer.style.display = 'none';
             }
         }

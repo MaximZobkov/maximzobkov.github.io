@@ -54,75 +54,155 @@
             border-radius: 10px;
         }
 
-        .advice-image {
-            max-width: 100%;
-            height: auto;
-            max-height: 250px;
-            border-radius: 10px;
+        .step {
             margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #e9ecef;
+            border-radius: 10px;
+        }
+
+        .step h5 {
+            color: #007bff;
+        }
+
+        .step p {
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">Интерактивное электронное техническое руководство для онлайн школы программирования</a>
+        <a class="navbar-brand" href="index.html">Интерактивное электронное техническое руководство для онлайн школы
+            программирования</a>
     </div>
 </nav>
 <div class="container text-center">
     <div class="card">
         <h4 class="mb-1">Ошибка: Не работает сайт</h4>
         <div id="advice-container">
-            <p class="lead">1 совет: Обновите страницу.</p>
-            <p>Попробуйте обновить страницу, нажав клавишу F5 или кнопку обновления в вашем браузере. Это может помочь, если проблема связана с временными сбоями или неполной загрузкой страницы. Иногда страницы не загружаются полностью из-за временных проблем с интернет-соединением или сервером. Обновление страницы может заставить браузер повторно загрузить контент и устранить проблему.</p>
-            <img id="advice-image" class="advice-image" src="https://rusadmin.biz/files/2017/11/2.jpg" alt="Advice Image">
+            <div class="step">
+                <h5>Шаг 1: Обновите страницу</h5>
+                <p>Попробуйте обновить страницу, нажав клавишу F5 или кнопку обновления в вашем браузере. Это может
+                    помочь, если проблема связана с временными сбоями или неполной загрузкой страницы. Иногда страницы
+                    не загружаются полностью из-за временных проблем с интернет-соединением или сервером. Обновление
+                    страницы может заставить браузер повторно загрузить контент и устранить проблему.</p>
+            </div>
             <p class="mt-3">Помогло?</p>
             <div class="button-container">
-                <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
+                <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Обновление страницы')">Да
+                </button>
                 <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
             </div>
         </div>
         <div style="display: none" id="message" class="message"></div>
     </div>
-    <a class="btn btn-dark btn-custom mt-3" href="index.html">На главную</a>
 </div>
 
 <script>
     let currentStep = 1;
+    let helpfulAdvice = '';
 
-    function handleResponse(helped) {
+    function handleResponse(helped, advice) {
         const adviceContainer = document.getElementById('advice-container');
         const messageElement = document.getElementById('message');
         messageElement.style.display = 'none';
 
         if (helped) {
+            helpfulAdvice = advice;
             messageElement.style.display = 'block';
-            messageElement.textContent = 'Проблема решена.';
+            messageElement.innerHTML = `
+                <p><strong>Проблема решена.</strong></p>
+                <p><strong>Причина неисправности:</strong> ${getReasonAndRecommendation(helpfulAdvice)}</p>
+            `;
             adviceContainer.style.display = 'none';
         } else {
             if (currentStep === 1) {
                 adviceContainer.innerHTML = `
-                    <p class="lead">2 совет: Почистите кэш.</p>
-                    <p>Если обновление страницы не помогло, попробуйте очистить кэш вашего браузера. Кэш браузера хранит временные файлы, которые могут быть повреждены или устарели. Очистка кэша может решить проблемы с загрузкой страницы. Вот как это сделать:</p>
-                    <ol>
-                        <li>Откройте настройки вашего браузера. Обычно это можно сделать, нажав на три точки или три линии в верхнем правом углу окна браузера.</li>
-                        <li>Найдите раздел "История" или "Конфиденциальность и безопасность".</li>
-                        <li>Выберите опцию "Очистить историю" или "Очистить данные сайтов и кэш".</li>
-                        <li>Убедитесь, что выбрана опция "Кэшированные изображения и файлы", и нажмите "Очистить данные".</li>
-                    </ol>
-                    <img id="advice-image" class="advice-image" src="https://ds-service39.ru/wp-content/uploads/f/7/d/f7d1672ae2f20043c7f77f88a25fd60d.jpeg" alt="Advice Image">
+                    <div class="step">
+                        <h5>Шаг 2: Почистите кэш</h5>
+                        <p>Если обновление страницы не помогло, попробуйте очистить кэш вашего браузера. Кэш браузера хранит временные файлы, которые могут быть повреждены или устарели. Очистка кэша может решить проблемы с загрузкой страницы. Вот как это сделать:</p>
+                        <ol>
+                            <li>Откройте настройки вашего браузера. Обычно это можно сделать, нажав на три точки или три линии в верхнем правом углу окна браузера.</li>
+                            <li>Найдите раздел "История" или "Конфиденциальность и безопасность".</li>
+                            <li>Выберите опцию "Очистить историю" или "Очистить данные сайтов и кэш".</li>
+                            <li>Убедитесь, что выбрана опция "Кэшированные изображения и файлы", и нажмите "Очистить данные".</li>
+                        </ol>
+                    </div>
                     <p class="mt-3">Помогло?</p>
                     <div class="button-container">
-                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Очистка кэша')">Да</button>
                         <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
                     </div>
                 `;
                 currentStep = 2;
+            } else if (currentStep === 2) {
+                adviceContainer.innerHTML = `
+                    <div class="step">
+                        <h5>Шаг 3: Проверьте интернет-соединение</h5>
+                        <p>Убедитесь, что ваше интернет-соединение работает корректно. Попробуйте открыть другой сайт, чтобы проверить, есть ли у вас доступ к интернету. Если другие сайты не открываются, проблема может быть связана с вашим интернет-соединением.</p>
+                    </div>
+                    <p class="mt-3">Помогло?</p>
+                    <div class="button-container">
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Проверка интернет-соединения')">Да</button>
+                        <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+                    </div>
+                `;
+                currentStep = 3;
+            } else if (currentStep === 3) {
+                adviceContainer.innerHTML = `
+                    <div class="step">
+                        <h5>Шаг 4: Перезагрузите маршрутизатор</h5>
+                        <p>Если у вас есть доступ к маршрутизатору, попробуйте его перезагрузить. Это может помочь устранить временные проблемы с интернет-соединением.</p>
+                    </div>
+                    <p class="mt-3">Помогло?</p>
+                    <div class="button-container">
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Перезагрузка маршрутизатора')">Да</button>
+                        <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+                    </div>
+                `;
+                currentStep = 4;
+            } else if (currentStep === 4) {
+                adviceContainer.innerHTML = `
+                    <div class="step">
+                        <h5>Шаг 5: Проверьте настройки DNS</h5>
+                        <p>Проблема может быть связана с настройками DNS. Попробуйте изменить DNS-серверы на публичные, такие как Google DNS (8.8.8.8 и 8.8.4.4) или Cloudflare DNS (1.1.1.1 и 1.0.0.1).</p>
+                    </div>
+                    <p class="mt-3">Помогло?</p>
+                    <div class="button-container">
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Проверка настроек DNS')">Да</button>
+                        <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+                    </div>
+                `;
+                currentStep = 5;
             } else {
                 messageElement.style.display = 'block';
-                messageElement.textContent = 'Обратитесь к системному администратору. Если ни один из предыдущих советов не помог, пожалуйста, обратитесь к системному администратору для получения дополнительной помощи. Это может быть необходимо, если проблема связана с более серьезными техническими вопросами, которые требуют профессионального вмешательства. Системный администратор сможет провести более глубокую диагностику и предложить решение.';
+                messageElement.innerHTML = `
+                    <p><strong>Обратитесь к системному администратору.</strong></p>
+                    <p>Если ни один из предыдущих советов не помог, пожалуйста, обратитесь к системному администратору для получения дополнительной помощи. Это может быть необходимо, если проблема связана с более серьезными техническими вопросами, которые требуют профессионального вмешательства. Системный администратор сможет провести более глубокую диагностику и предложить решение.</p>
+                    <p><strong>Причина неисправности:</strong> Возможно, проблема связана с более серьезными техническими вопросами, которые требуют профессионального вмешательства.</p>
+                    <p><strong>Рекомендации:</strong> Регулярно проверяйте состояние вашего оборудования и программного обеспечения. Убедитесь, что все обновления установлены и оборудование работает корректно.</p>
+                `;
                 adviceContainer.style.display = 'none';
             }
+        }
+    }
+
+    function getReasonAndRecommendation(advice) {
+        switch (advice) {
+            case 'Обновление страницы':
+                return 'Проблема заключалась в временных сбоях или неполной загрузке страницы. Регулярно обновляйте страницу, если возникают проблемы с загрузкой. Убедитесь, что ваше интернет-соединение стабильно.';
+            case 'Очистка кэша':
+                return 'Проблема заключалась в том, что в кэше хранились старые данные, которые препятствовали корректной работе. Регулярно очищайте кэш браузера, чтобы избежать подобных проблем в будущем.';
+            case 'Проверка интернет-соединения':
+                return 'Проблема была связана с интернет-соединением. Убедитесь, что ваше интернет-соединение стабильно и работает корректно.';
+            case 'Перезагрузка маршрутизатора':
+                return 'Проблема была связана с маршрутизатором. Регулярно перезагружайте маршрутизатор, чтобы избежать подобных проблем в будущем.';
+            case 'Проверка настроек DNS':
+                return 'Проблема была связана с настройками DNS. Используйте надежные публичные DNS-серверы, чтобы избежать подобных проблем в будущем.';
+            default:
+                return '';
         }
     }
 </script>

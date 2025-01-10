@@ -54,12 +54,20 @@
             border-radius: 10px;
         }
 
-        .advice-image {
-            max-width: 100%;
-            height: auto;
-            max-height: 250px;
-            border-radius: 10px;
+        .step {
             margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #e9ecef;
+            border-radius: 10px;
+        }
+
+        .step h5 {
+            color: #007bff;
+        }
+
+        .step p {
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -73,12 +81,13 @@
     <div class="card">
         <h1 class="mb-4">Ошибка: Преподаватель не выполняет свои обязанности</h1>
         <div id="advice-container">
-            <p class="lead">1 совет: Напишите преподавателю.</p>
-            <p>Попробуйте связаться с преподавателем через электронную почту или мессенджер. Возможно, преподаватель не получил уведомление о своих обязанностях или столкнулся с техническими трудностями. Напишите ему, чтобы уточнить, в чем именно заключается проблема. Это поможет вам лучше понять ситуацию и предложить решение.</p>
-            <img id="advice-image" class="advice-image" src="https://avatars.mds.yandex.net/i?id=f7f06d1839b36d09dffa2232b8447905_l-9711399-images-thumbs&n=13" alt="Advice Image">
+            <div class="step">
+                <h5>Шаг 1: Напишите преподавателю.</h5>
+                <p>Попробуйте связаться с преподавателем через электронную почту или мессенджер. Возможно, преподаватель не получил уведомление о своих обязанностях или столкнулся с техническими трудностями. Напишите ему, чтобы уточнить, в чем именно заключается проблема. Это поможет вам лучше понять ситуацию и предложить решение.</p>
+            </div>
             <p class="mt-3">Помогло?</p>
             <div class="button-container">
-                <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
+                <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Написать преподавателю')">Да</button>
                 <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
             </div>
         </div>
@@ -89,39 +98,90 @@
 
 <script>
     let currentStep = 1;
+    let helpfulAdvice = '';
 
-    function handleResponse(helped) {
+    function handleResponse(helped, advice) {
         const adviceContainer = document.getElementById('advice-container');
         const messageElement = document.getElementById('message');
         messageElement.style.display = 'none';
 
         if (helped) {
+            helpfulAdvice = advice;
             messageElement.style.display = 'block';
-            messageElement.textContent = 'Проблема решена.';
+            messageElement.innerHTML = `
+                <p><strong>Проблема решена.</strong></p>
+                <p><strong>Причина неисправности:</strong> ${getReasonAndRecommendation(helpfulAdvice)}</p>
+            `;
             adviceContainer.style.display = 'none';
         } else {
             if (currentStep === 1) {
                 adviceContainer.innerHTML = `
-                    <p class="lead">2 совет: Позвоните преподавателю по контактному номеру.</p>
-                    <p>Если написать преподавателю не получилось, попробуйте позвонить ему по контактному номеру. Личный разговор может помочь быстрее решить проблему. Вот шаги, которые помогут вам:</p>
-                    <ol>
-                        <li>Найдите контактный номер преподавателя в базе данных или в предыдущих переписках.</li>
-                        <li>Позвоните преподавателю и объясните ситуацию. Уточните, в чем именно заключается проблема.</li>
-                        <li>Предложите решение или дополнительную помощь, если это необходимо.</li>
-                    </ol>
-                    <img id="advice-image" class="advice-image" src="https://admbal.ru/upload/iblock/af9/2hwu929n32fi6sul4heaq6cub3elw0q9.jpg" alt="Advice Image">
+                    <div class="step">
+                        <h5>Шаг 2: Позвоните преподавателю по контактному номеру.</h5>
+                        <p>Если написать преподавателю не получилось, попробуйте позвонить ему по контактному номеру. Личный разговор может помочь быстрее решить проблему. Вот шаги, которые помогут вам:</p>
+                        <ol>
+                            <li>Найдите контактный номер преподавателя в базе данных или в предыдущих переписках.</li>
+                            <li>Позвоните преподавателю и объясните ситуацию. Уточните, в чем именно заключается проблема.</li>
+                            <li>Предложите решение или дополнительную помощь, если это необходимо.</li>
+                        </ol>
+                    </div>
                     <p class="mt-3">Помогло?</p>
                     <div class="button-container">
-                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true)">Да</button>
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Позвонить преподавателю')">Да</button>
                         <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
                     </div>
                 `;
                 currentStep = 2;
+            } else if (currentStep === 2) {
+                adviceContainer.innerHTML = `
+                    <div class="step">
+                        <h5>Шаг 3: Проверьте расписание.</h5>
+                        <p>Убедитесь, что преподаватель действительно должен был выполнять свои обязанности в это время. Возможно, произошла ошибка в расписании. Проверьте расписание и убедитесь, что преподаватель должен был выполнять свои обязанности.</p>
+                    </div>
+                    <p class="mt-3">Помогло?</p>
+                    <div class="button-container">
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Проверка расписания')">Да</button>
+                        <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+                    </div>
+                `;
+                currentStep = 3;
+            } else if (currentStep === 3) {
+                adviceContainer.innerHTML = `
+                    <div class="step">
+                        <h5>Шаг 4: Свяжитесь с администрацией.</h5>
+                        <p>Если ни один из предыдущих шагов не помог, свяжитесь с администрацией школы. Они смогут провести более глубокую диагностику и предложить решение.</p>
+                    </div>
+                    <p class="mt-3">Помогло?</p>
+                    <div class="button-container">
+                        <button class="btn btn-primary btn-custom" onclick="handleResponse(true, 'Связаться с администрацией')">Да</button>
+                        <button class="btn btn-secondary btn-custom" onclick="handleResponse(false)">Нет</button>
+                    </div>
+                `;
+                currentStep = 4;
             } else {
                 messageElement.style.display = 'block';
-                messageElement.textContent = 'Обратитесь к администрации. Если ни один из предыдущих советов не помог, пожалуйста, обратитесь к администрации для получения дополнительной помощи. Это может быть необходимо, если проблема связана с более серьезными вопросами, которые требуют профессионального вмешательства. Администрация сможет провести более глубокую диагностику и предложить решение.';
+                messageElement.innerHTML = `
+                    <p><strong>Обратитесь к системному администратору.</strong></p>
+                    <p>Если ни один из предыдущих советов не помог, пожалуйста, обратитесь к системному администратору для получения дополнительной помощи. Это может быть необходимо, если проблема связана с более серьезными техническими вопросами, которые требуют профессионального вмешательства. Системный администратор сможет провести более глубокую диагностику и предложить решение.</p>
+                    <p><strong>Причина неисправности:</strong> Возможно, проблема связана с более серьезными техническими вопросами, которые требуют профессионального вмешательства.</p>
+                    `;
                 adviceContainer.style.display = 'none';
             }
+        }
+    }
+
+    function getReasonAndRecommendation(advice) {
+        switch (advice) {
+            case 'Написать преподавателю':
+                return 'Проблема заключалась в том, что преподаватель не получил уведомление о своих обязанностях или столкнулся с техническими трудностями. Рекомендация: Убедитесь, что преподаватели получают все необходимые уведомления и имеют доступ к технической поддержке.';
+            case 'Позвонить преподавателю':
+                return 'Проблема была связана с отсутствием ответа на сообщения. Рекомендация: В случае срочных вопросов используйте телефонный звонок для быстрого решения проблемы.';
+            case 'Проверка расписания':
+                return 'Проблема была связана с ошибкой в расписании. Рекомендация: Регулярно проверяйте расписание и убедитесь, что все обязанности запланированы корректно.';
+            case 'Связаться с администрацией':
+                return 'Проблема требует вмешательства администрации. Рекомендация: В случае серьезных проблем обращайтесь к администрации для получения дополнительной помощи.';
+            default:
+                return '';
         }
     }
 </script>
